@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>calc (short for calculator)</title>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container">
+        <header class="header">
+          <span class="header-time" id="headerTime">9:41</span>
+          <div class="header-icons-container">
+            <img
+              src="./src/assets/cell.svg"
+              alt="cellular"
+              width="24"
+              height="24"
+            />
+            <img
+              src="./src/assets/wifi.svg"
+              alt="wifi"
+              width="24"
+              height="24"
+            />
+            <img
+              src="./src/assets/battery.svg"
+              alt="battery"
+              width="32"
+              height="32"
+            />
+          </div>
+        </header>
+        <main class="main">
+          <div class="display">
+            <span id="displaySub" class="display-sub">&nbsp;</span>
+            <span id="displayMain" class="display-main">941</span>
+          </div>
+          <div class="numbers-grid">
+            <button id="btnMemPlus" class="btn btn-action">M&plus;</button>
+            <button id="btnMemMinus" class="btn btn-action">M&minus;</button>
+            <button id="btnMemReset" class="btn btn-action">MR</button>
+            <button id="btnMemSet" class="btn btn-action">MS</button>
+            <button id="btnAllClean" class="btn btn-action">AC</button>
+            <button id="btnMemClear" class="btn btn-action">MC</button>
+            <button id="btnPercent" class="btn btn-action">&percnt;</button>
+            <button id="btnDivide" class="btn btn-operation">&divide;</button>
+            <button id="btnSeven" class="btn btn-number">7</button>
+            <button id="btnEight" class="btn btn-number">8</button>
+            <button id="btnNine" class="btn btn-number">9</button>
+            <button id="btnTimes" class="btn btn-operation">&times;</button>
+            <button id="btnFour" class="btn btn-number">4</button>
+            <button id="btnFive" class="btn btn-number">5</button>
+            <button id="btnSix" class="btn btn-number">6</button>
+            <button id="btnMinus" class="btn btn-operation">&minus;</button>
+            <button id="btnOne" class="btn btn-number">1</button>
+            <button id="btnTwo" class="btn btn-number">2</button>
+            <button id="btnThree" class="btn btn-number">3</button>
+            <button id="btnPlus" class="btn btn-operation">&plus;</button>
+            <button id="btnZero" class="btn btn-number btn-wide">0</button>
+            <button id="btnComma" class="btn btn-number">&comma;</button>
+            <button id="btnEquals" class="btn btn-operation">&equals;</button>
+          </div>
+        </main>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
