@@ -1,0 +1,33 @@
+export const btnZero = document.getElementById("btnZero")
+export const btnOne = document.getElementById("btnOne")
+export const btnTwo = document.getElementById("btnTwo")
+export const btnThree = document.getElementById("btnThree")
+export const btnFour = document.getElementById("btnFour")
+export const btnFive = document.getElementById("btnFive")
+export const btnSix = document.getElementById("btnSix")
+export const btnSeven = document.getElementById("btnSeven")
+export const btnEight = document.getElementById("btnEight")
+export const btnNine = document.getElementById("btnNine")
+
+export const btnComma = document.getElementById("btnComma")
+
+export const btnEquals = document.getElementById("btnEquals")
+export const btnPlus = document.getElementById("btnPlus")
+export const btnMinus = document.getElementById("btnMinus")
+export const btnTimes = document.getElementById("btnTimes")
+export const btnDivide = document.getElementById("btnDivide")
+export const btnPercent = document.getElementById("btnPercent")
+
+export const btnMemPlus = document.getElementById("btnMemPlus")
+export const btnMemMinus = document.getElementById("btnMemMinus")
+export const btnMemRead = document.getElementById("btnMemRead")
+export const btnMemSave = document.getElementById("btnMemSave")
+export const btnMemClear = document.getElementById("btnMemClear")
+export const btnAllClean = document.getElementById("btnAllClean")
+
+export const displaySub = document.getElementById("displaySub")
+export const displayMain = document.getElementById("displayMain")
+
+export const notification = document.getElementById("notification")
+export const notificationTitle = document.getElementById("notificationTitle")
+export const notificationText = document.getElementById("notificationText")

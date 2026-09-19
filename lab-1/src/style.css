@@ -17,6 +17,10 @@
   --btn-operation: #f1a33b;
   --btn-number: #333333;
 
+  --notification-bg: #cacacaab;
+  --notification-text: #000;
+  --notification-timing: #444444;
+
   --font: "Inter", system-ui, sans-serif;
 
   font: 16px var(--font);
@@ -39,6 +43,7 @@
 }
 
 .container {
+  position: relative;
   max-width: 428px;
   width: 100%;
   padding: 1rem 1rem 4rem;
@@ -81,10 +86,18 @@
 .display-sub {
   color: var(--text-sub);
   font-size: 3rem;
+  height: 60px;
 }
 
 .display-main {
   font-size: 6rem;
+  line-height: 6rem;
+
+  transition: font-size ease-in-out 0.2s;
+}
+
+.display-sm {
+  font-size: 3rem;
 }
 
 .numbers-grid {
@@ -123,5 +136,50 @@
 .btn-wide {
   grid-column: span 2;
   aspect-ratio: auto;
-  border-radius: 4rem;
+  border-radius: 64px;
+}
+
+.notification {
+  user-select: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5rem 1rem;
+  width: 100%;
+  transform: translateY(-250px);
+  transition: transform ease-in-out 0.2s;
+}
+
+.notification.active {
+  transform: translateY(0);
+}
+
+.notification-container {
+  background-color: var(--notification-bg);
+  border-radius: 16px;
+  padding: 1rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.notification-logo {
+  height: 48px;
+  border-radius: 16px;
+}
+
+.notification-details {
+  flex: 1;
+  color: var(--notification-text);
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-title {
+  font-weight: 700;
+}
+
+.notification-timing {
+  align-self: start;
+  color: var(--notification-timing);
 }

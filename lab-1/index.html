@@ -34,14 +34,14 @@
         </header>
         <main class="main">
           <div class="display">
-            <span id="displaySub" class="display-sub">&nbsp;</span>
-            <span id="displayMain" class="display-main">941</span>
+            <span id="displaySub" class="display-sub"></span>
+            <span id="displayMain" class="display-main"></span>
           </div>
           <div class="numbers-grid">
             <button id="btnMemPlus" class="btn btn-action">M&plus;</button>
             <button id="btnMemMinus" class="btn btn-action">M&minus;</button>
-            <button id="btnMemReset" class="btn btn-action">MR</button>
-            <button id="btnMemSet" class="btn btn-action">MS</button>
+            <button id="btnMemRead" class="btn btn-action">MR</button>
+            <button id="btnMemSave" class="btn btn-action">MS</button>
             <button id="btnAllClean" class="btn btn-action">AC</button>
             <button id="btnMemClear" class="btn btn-action">MC</button>
             <button id="btnPercent" class="btn btn-action">&percnt;</button>
@@ -63,8 +63,30 @@
             <button id="btnEquals" class="btn btn-operation">&equals;</button>
           </div>
         </main>
+
+        <div id="notification" class="notification">
+          <div class="notification-container">
+            <div class="notification-image">
+              <img
+                src="src/assets/calculator-logo.webp"
+                class="notification-logo"
+              />
+            </div>
+            <div class="notification-details">
+              <span id="notificationTitle" class="notification-title">
+                Calculator
+              </span>
+              <span id="notificationText" class="notification-text">
+                Please input 14 or less numbers.
+              </span>
+            </div>
+            <span class="notification-timing">
+                now
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="./main.js"></script>
   </body>
 </html>
