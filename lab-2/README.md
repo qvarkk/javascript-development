@@ -39,6 +39,3 @@
 <p align="center">
   <img src="https://media1.tenor.com/m/q2vIYYobXZIAAAAd/sea-lion.gif">
 </p>
-<p align="center">
-  Такса
-</p>
