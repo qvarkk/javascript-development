@@ -37,5 +37,5 @@
 </p>
 
 <p align="center">
-  <img src="https://media1.tenor.com/m/q2vIYYobXZIAAAAd/sea-lion.gif">
+  <img src="https://media1.tenor.com/m/LxNXdo9mw6AAAAAd/sea-lion-wiggle.gif">
 </p>
