@@ -6,32 +6,51 @@ import Keyboard from "./components/Keyboard"
 import SearchScreen from "./components/SearchScreen"
 
 function App() {
-  const [sourceCurrency, setSourceCurrency] = useState(currencyList[1])
-  const [targetCurrency, setTargetCurrency] = useState(currencyList[0])
+  const [sourceCurrency, setSourceCurrency] = useState(currencyList[0])
+  const [targetCurrency, setTargetCurrency] = useState(currencyList[1])
 
-  const [sourceAmount, setSourceAmount] = useState("1")
+  const [currentAmount, setCurrentAmount] = useState("100")
   const [focusedCard, setFocusedCard] = useState("source")
   const [searchTarget, setSearchTarget] = useState(null)
 
-  const calculatedTargetAmount = (() => {
-    const numSource = parseFloat(sourceAmount) || 0
-    const sourceInBase =
-      (numSource * sourceCurrency.Value) / sourceCurrency.Nominal
-    const finalTarget =
-      (sourceInBase / targetCurrency.Value) * targetCurrency.Nominal
-    return Number(finalTarget.toFixed(4)).toString()
-  })()
+  const sourceAmount =
+    focusedCard === "source"
+      ? currentAmount
+      : (() => {
+          const numSource = parseFloat(currentAmount) || 0
+          const targetInBase =
+            (numSource * targetCurrency.Value) / targetCurrency.Nominal
+          const finalSource =
+            (targetInBase / sourceCurrency.Value) * sourceCurrency.Nominal
+          return finalSource.toFixed(4).toString()
+        })()
+
+  const targetAmount =
+    focusedCard === "target"
+      ? currentAmount
+      : (() => {
+          const numSource = parseFloat(currentAmount) || 0
+          const sourceInBase =
+            (numSource * sourceCurrency.Value) / sourceCurrency.Nominal
+          const finalTarget =
+            (sourceInBase / targetCurrency.Value) * targetCurrency.Nominal
+          return finalTarget.toFixed(4).toString()
+        })()
 
   const handleInputDigit = (key) => {
-    if (focusedCard !== "source") return
-
-    setSourceAmount((prev) => {
+    setCurrentAmount((prev) => {
       if (key === "AC") return "0"
       if (key === "DEL") return prev.length <= 1 ? "0" : prev.slice(0, -1)
       if (key === ".") return prev.includes(".") ? prev : prev + "."
       if (prev === "0" && key !== ".") return key
       return prev + key
     })
+  }
+
+  const handleCardSelect = (cardType) => {
+    if (focusedCard === cardType) return
+    setFocusedCard(cardType)
+    setCurrentAmount(cardType === "source" ? sourceAmount : targetAmount)
   }
 
   useEffect(() => {
@@ -54,7 +73,7 @@ function App() {
 
       <main className="flex-1 flex flex-col p-4 gap-4 overflow-y-auto">
         <div
-          onClick={() => setFocusedCard("source")}
+          onClick={() => handleCardSelect("source")}
           className="p-4 bg-(--bg-lighter) rounded-2xl flex flex-col gap-3 cursor-pointer"
           style={{ boxShadow: "var(--shadow-hard)" }}
         >
@@ -94,7 +113,7 @@ function App() {
         </div>
 
         <div
-          onClick={() => setFocusedCard("target")}
+          onClick={() => handleCardSelect("target")}
           className="p-4 bg-(--bg-lighter) rounded-2xl flex flex-col gap-3 cursor-pointer"
           style={{ boxShadow: "var(--shadow-hard)" }}
         >
@@ -118,7 +137,7 @@ function App() {
               type="text"
               readOnly
               inputMode="none"
-              value={calculatedTargetAmount}
+              value={targetAmount}
               className={`flex-1 bg-transparent border-none text-center outline-hidden text-base font-bold ${
                 focusedCard === "target" ? "text-(--success)" : "text-(--text)"
               }`}

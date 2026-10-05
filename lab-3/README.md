@@ -11,7 +11,7 @@
 
 ## Скриншоты
 
-<!-- <p align="center">
+<p align="center">
   <img src="../assets/lab-3/screenshot-1.png">
 </p>
 
@@ -25,4 +25,4 @@
 
 <p align="center">
   <img src="https://media1.tenor.com/m/4ghZ5EKgNO0AAAAd/seal-seal-tongue-out.gif">
-</p> -->
+</p>

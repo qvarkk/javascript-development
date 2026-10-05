@@ -30,15 +30,15 @@ function SearchScreen({
           <ArrowLeft size={24} />
         </button>
         <h1 className="text-xl font-bold text-(--text) text-left">
-          Change Currency
+          Изменить валюту
         </h1>
       </header>
 
-      <div className="relative flex items-center border-b border-gray-300 pb-2 mb-6 focus-within:border-(--success) transition-colors">
+      <div className="relative flex items-center border-b border-gray-300 pb-2 mb-6">
         <Search size={18} className="text-gray-400 mr-2" />
         <input
           type="text"
-          placeholder="Search currency..."
+          placeholder="Поиск валют..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full bg-transparent border-none outline-hidden text-sm text-(--text) placeholder-gray-400 text-left"
@@ -46,9 +46,9 @@ function SearchScreen({
         {searchQuery && (
           <button
             onClick={() => setSearchQuery("")}
-            className="w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 cursor-pointer transition hover:bg-gray-300"
+            className="p-1.5 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 cursor-pointer transition hover:bg-gray-300"
           >
-            <X size={12} />
+            <X size={12} strokeWidth={3} />
           </button>
         )}
       </div>
@@ -60,8 +60,7 @@ function SearchScreen({
             <div
               key={currency.ID}
               onClick={() => onSelectCurrency(currency)}
-              className="flex items-center justify-between p-4 bg-(--bg-lighter) rounded-2xl cursor-pointer hover:scale-[1.01] transition duration-200"
-              style={{ boxShadow: "var(--shadow-light)" }}
+              className="flex items-center justify-between p-4 bg-(--bg-lighter) rounded-2xl cursor-pointer hover:scale-[1.01] transition duration-200 border border-gray-200"
             >
               <div className="flex flex-col gap-0.5 text-left">
                 <span className="text-lg font-bold text-(--text) tracking-wide">
