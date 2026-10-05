@@ -24,5 +24,5 @@
 </p>
 
 <p align="center">
-  <img src="https://media1.tenor.com/m/4ghZ5EKgNO0AAAAd/seal-seal-tongue-out.gif">
+  <img src="https://media1.tenor.com/m/Ah9EqT0Xu9oAAAAd/seal-shy.gif">
 </p>
