@@ -63,6 +63,8 @@ function App() {
           <TypingTest
             key={testId}
             text={displayText}
+            mode={currentMode}
+            value={currentValue}
             onStart={() => setIsStarted(true)}
             onRestart={restart}
           />

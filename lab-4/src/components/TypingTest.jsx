@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react"
 import { RotateCw } from "lucide-react"
 
-function TypingTest({ text, onStart, onRestart }) {
+function TypingTest({ text, mode, value, onStart, onRestart }) {
   const [inputs, setInputs] = useState([])
+  const [remaining, setRemaining] = useState(value)
   const areaRef = useRef(null)
 
   useEffect(() => {
@@ -10,6 +11,7 @@ function TypingTest({ text, onStart, onRestart }) {
   }, [])
 
   const targetChars = Array.from(text)
+  const started = inputs.length > 0
 
   const words = []
   let wordStart = null
@@ -45,7 +47,10 @@ function TypingTest({ text, onStart, onRestart }) {
 
     event.preventDefault()
 
-    if (inputs.length === 0) onStart()
+    if (inputs.length === 0) {
+      onStart()
+      setRemaining(value)
+    }
 
     setInputs((prev) => {
       const pos = getPosition(prev)
@@ -118,26 +123,50 @@ function TypingTest({ text, onStart, onRestart }) {
     return { char, key: `t${index}`, className }
   })
 
+  const currentWordNumber = activeWord
+    ? words.indexOf(activeWord) + 1
+    : words.length
+
+  useEffect(() => {
+    if (!started || mode.id !== "time") return
+    const id = setInterval(() => {
+      setRemaining((prev) => (prev > 0 ? prev - 1 : 0))
+    }, 1000)
+    return () => clearInterval(id)
+  }, [started, mode.id])
+
   return (
     <div className="flex flex-col items-center gap-8">
-      <div
-        ref={areaRef}
-        tabIndex={0}
-        onKeyDown={handleKeyDown}
-        className="max-w-5xl text-left outline-none cursor-text"
-        style={{ font: "var(--font-body)" }}
-      >
-        {glyphs.slice(0, position).map((glyph) => (
-          <span key={glyph.key} className={glyph.className || ""}>
-            {glyph.char}
-          </span>
-        ))}
-        <span className="caret" />
-        {glyphs.slice(position).map((glyph) => (
-          <span key={glyph.key} className={glyph.className || ""}>
-            {glyph.char}
-          </span>
-        ))}
+      <div className="w-full max-w-5xl text-left">
+        {started && (
+          <div
+            className="mb-6 text-(--accent)"
+            style={{ font: "var(--font-body)" }}
+          >
+            {mode.id === "time"
+              ? remaining
+              : `${currentWordNumber}/${words.length}`}
+          </div>
+        )}
+        <div
+          ref={areaRef}
+          tabIndex={0}
+          onKeyDown={handleKeyDown}
+          className="outline-none cursor-text"
+          style={{ font: "var(--font-body)" }}
+        >
+          {glyphs.slice(0, position).map((glyph) => (
+            <span key={glyph.key} className={glyph.className || ""}>
+              {glyph.char}
+            </span>
+          ))}
+          <span className="caret" />
+          {glyphs.slice(position).map((glyph) => (
+            <span key={glyph.key} className={glyph.className || ""}>
+              {glyph.char}
+            </span>
+          ))}
+        </div>
       </div>
       <button
         className="flex items-center gap-2 bg-(--bg-sub) text-(--text-sub) px-6 py-[16px] rounded-[18px] cursor-pointer hover:brightness-125 transition-all ease-in-out"
