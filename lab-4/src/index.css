@@ -3,11 +3,13 @@
 
 :root {
   --text: #c3c3c3;
+  --text-correct: #ffffff;
   --text-heading: #babab8;
   --text-sub: #727b8a;
   --text-action: #f8b415;
   --text-contrast: #282c34;
   --text-danger: #ee5867;
+  --text-danger-dark: #7e2a33;
 
   --accent: #f8b415;
 
@@ -62,8 +64,30 @@ h1 {
 .caret {
   display: inline-block;
   width: 2px;
-  height: 1.3em;
+  height: 0.9em;
   margin: 0 -1px;
+  vertical-align: middle;
   background: var(--accent);
   animation: caret-blink 1.1s steps(1) infinite;
+}
+
+.char-correct {
+  color: var(--text-correct);
+}
+
+.char-incorrect {
+  color: var(--text-danger);
+  text-decoration: underline;
+  text-decoration-color: var(--text-danger);
+  text-underline-offset: 0.2em;
+}
+
+.char-skipped {
+  color: var(--text-danger-dark);
+}
+
+.word-error {
+  text-decoration: underline;
+  text-decoration-color: var(--text-danger);
+  text-underline-offset: 0.2em;
 }
