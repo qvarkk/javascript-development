@@ -25,6 +25,8 @@ function App() {
   const [currentValue, setCurrentValue] = useState(AVAILABLE_MODES[0].values[0])
   const [isInstantionted, setIsInstantiated] = useState(false)
   const [isStarted, setIsStarted] = useState(false)
+  const [isFinished, setIsFinished] = useState(false)
+  const [result, setResult] = useState(null)
   const [rawText, setRawText] = useState("")
   const [testId, setTestId] = useState(0)
 
@@ -37,11 +39,20 @@ function App() {
     setRawText(text)
     setIsInstantiated(true)
     setIsStarted(false)
+    setIsFinished(false)
+    setResult(null)
   }
 
   const restart = () => {
     setIsStarted(false)
+    setIsFinished(false)
+    setResult(null)
     setTestId((id) => id + 1)
+  }
+
+  const finish = (stats) => {
+    setResult(stats)
+    setIsFinished(true)
   }
 
   return (
@@ -59,13 +70,22 @@ function App() {
           />
         </div>
 
-        {isInstantionted ? (
+        {isFinished ? (
+          <div
+            className="text-(--text-sub)"
+            style={{ font: "var(--font-body)" }}
+          >
+            Тест завершён — верно {result?.correct ?? 0}, ошибки{" "}
+            {(result?.incorrect ?? 0) + (result?.skipped ?? 0)}
+          </div>
+        ) : isInstantionted ? (
           <TypingTest
             key={testId}
             text={displayText}
             mode={currentMode}
             value={currentValue}
             onStart={() => setIsStarted(true)}
+            onFinish={finish}
             onRestart={restart}
           />
         ) : (

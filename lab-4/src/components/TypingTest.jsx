@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react"
 import { RotateCw } from "lucide-react"
 
-function TypingTest({ text, mode, value, onStart, onRestart }) {
+function TypingTest({ text, mode, value, onStart, onFinish, onRestart }) {
   const [inputs, setInputs] = useState([])
-  const [remaining, setRemaining] = useState(value)
+  const [elapsed, setElapsed] = useState(0)
   const areaRef = useRef(null)
 
   useEffect(() => {
@@ -34,8 +34,16 @@ function TypingTest({ text, mode, value, onStart, onRestart }) {
 
   const position = getPosition(inputs)
 
+  const finished =
+    started &&
+    (position >= targetChars.length || (mode.id === "time" && elapsed >= value))
+
+  const remaining = Math.max(0, value - elapsed)
+
   const handleKeyDown = (event) => {
     if (event.ctrlKey || event.metaKey || event.altKey) return
+
+    if (finished) return
 
     if (event.key === "Backspace") {
       event.preventDefault()
@@ -47,10 +55,7 @@ function TypingTest({ text, mode, value, onStart, onRestart }) {
 
     event.preventDefault()
 
-    if (inputs.length === 0) {
-      onStart()
-      setRemaining(value)
-    }
+    if (inputs.length === 0) onStart()
 
     setInputs((prev) => {
       const pos = getPosition(prev)
@@ -128,12 +133,28 @@ function TypingTest({ text, mode, value, onStart, onRestart }) {
     : words.length
 
   useEffect(() => {
-    if (!started || mode.id !== "time") return
+    if (!started || finished) return
     const id = setInterval(() => {
-      setRemaining((prev) => (prev > 0 ? prev - 1 : 0))
+      setElapsed((prev) => prev + 1)
     }, 1000)
     return () => clearInterval(id)
-  }, [started, mode.id])
+  }, [started, finished])
+
+  useEffect(() => {
+    if (!finished) return
+
+    let correct = 0
+    let incorrect = 0
+    let skipped = 0
+
+    for (const input of inputs) {
+      if (input.type === "skip") skipped += input.to - input.from
+      else if (input.correct) correct++
+      else incorrect++
+    }
+
+    onFinish({ correct, incorrect, skipped, elapsed })
+  }, [finished, inputs, elapsed, onFinish])
 
   return (
     <div className="flex flex-col items-center gap-8">
