@@ -13,7 +13,7 @@
 
 ## Скриншоты
 
-<!-- <p align="center">
+<p align="center">
   <img src="../assets/lab-4/screenshot-1.png">
 </p>
 
@@ -26,5 +26,9 @@
 </p>
 
 <p align="center">
-  <img src="https://media1.tenor.com/m/Ah9EqT0Xu9oAAAAd/seal-shy.gif">
-</p> -->
+  <img src="../assets/lab-4/screenshot-4.png">
+</p>
+
+<p align="center">
+  <img src="https://c.tenor.com/ipBtW2moS1gAAAAd/tenor.gif">
+</p>
