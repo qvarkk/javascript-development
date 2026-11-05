@@ -26,4 +26,8 @@ async function fetchText() {
   }
 }
 
+export function trimToWords(text, count) {
+  return text.trim().split(/\s+/).slice(0, count).join(" ")
+}
+
 export default fetchText
