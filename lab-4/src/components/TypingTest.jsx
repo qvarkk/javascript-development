@@ -1,17 +1,18 @@
-import { useEffect, useRef, useState } from "react"
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from "react"
 import { RotateCw } from "lucide-react"
 
 function TypingTest({ text, mode, value, onStart, onFinish, onRestart }) {
   const [inputs, setInputs] = useState([])
   const [elapsed, setElapsed] = useState(0)
+  const [started, setStarted] = useState(false)
   const areaRef = useRef(null)
+  const activeWordRef = useRef(null)
 
   useEffect(() => {
     areaRef.current?.focus()
   }, [])
 
   const targetChars = Array.from(text)
-  const started = inputs.length > 0
 
   const words = []
   let wordStart = null
@@ -55,7 +56,10 @@ function TypingTest({ text, mode, value, onStart, onFinish, onRestart }) {
 
     event.preventDefault()
 
-    if (inputs.length === 0) onStart()
+    if (!started) {
+      onStart()
+      setStarted(true)
+    }
 
     setInputs((prev) => {
       const pos = getPosition(prev)
@@ -105,12 +109,13 @@ function TypingTest({ text, mode, value, onStart, onFinish, onRestart }) {
     words.find(
       (word) => clampedPosition >= word.start && clampedPosition <= word.end,
     ) ?? null
+  const activeWordIndex = activeWord ? words.indexOf(activeWord) : -1
 
   const activeWordHasError =
     activeWord !== null &&
     statuses.slice(activeWord.start, activeWord.end).includes("incorrect")
 
-  const glyphs = targetChars.map((char, index) => {
+  const charClasses = targetChars.map((_, index) => {
     let className = ""
 
     if (statuses[index] === "correct") className = "char-correct"
@@ -125,12 +130,10 @@ function TypingTest({ text, mode, value, onStart, onFinish, onRestart }) {
       className = className ? `${className} word-error` : "word-error"
     }
 
-    return { char, key: `t${index}`, className }
+    return className
   })
 
-  const currentWordNumber = activeWord
-    ? words.indexOf(activeWord) + 1
-    : words.length
+  const currentWordNumber = activeWord ? activeWordIndex + 1 : words.length
 
   useEffect(() => {
     if (!started || finished) return
@@ -156,6 +159,50 @@ function TypingTest({ text, mode, value, onStart, onFinish, onRestart }) {
     onFinish({ correct, incorrect, skipped, elapsed })
   }, [finished, inputs, elapsed, onFinish])
 
+  useLayoutEffect(() => {
+    const container = areaRef.current
+    const active = activeWordRef.current
+    if (!container || !active) return
+
+    const lineHeight = parseFloat(getComputedStyle(container).lineHeight) || 51
+    const top =
+      active.getBoundingClientRect().top -
+      container.getBoundingClientRect().top +
+      container.scrollTop
+
+    container.scrollTop = Math.max(0, top - lineHeight)
+  })
+
+  const renderWord = (word, wordIndex) => {
+    const chars = []
+
+    for (let index = word.start; index < word.end; index++) {
+      chars.push(
+        <span key={`t${index}`} className={charClasses[index] || undefined}>
+          {targetChars[index]}
+        </span>,
+      )
+    }
+
+    if (position >= word.start && position <= word.end) {
+      chars.splice(
+        position - word.start,
+        0,
+        <span key="caret" className="caret" />,
+      )
+    }
+
+    return (
+      <span
+        key={`w${wordIndex}`}
+        className="word"
+        ref={wordIndex === activeWordIndex ? activeWordRef : undefined}
+      >
+        {chars}
+      </span>
+    )
+  }
+
   return (
     <div className="flex flex-col items-center gap-8">
       <div className="w-full max-w-5xl text-left">
@@ -173,19 +220,16 @@ function TypingTest({ text, mode, value, onStart, onFinish, onRestart }) {
           ref={areaRef}
           tabIndex={0}
           onKeyDown={handleKeyDown}
-          className="outline-none cursor-text"
-          style={{ font: "var(--font-body)" }}
+          className="relative overflow-hidden outline-none cursor-text"
+          style={{ height: "6.8em", font: "var(--font-body)" }}
         >
-          {glyphs.slice(0, position).map((glyph) => (
-            <span key={glyph.key} className={glyph.className || ""}>
-              {glyph.char}
-            </span>
-          ))}
-          <span className="caret" />
-          {glyphs.slice(position).map((glyph) => (
-            <span key={glyph.key} className={glyph.className || ""}>
-              {glyph.char}
-            </span>
+          {words.map((word, wordIndex) => (
+            <Fragment key={`f${wordIndex}`}>
+              {renderWord(word, wordIndex)}
+              {wordIndex < words.length - 1 && (
+                <span key={`s${word.end}`}>{" "}</span>
+              )}
+            </Fragment>
           ))}
         </div>
       </div>

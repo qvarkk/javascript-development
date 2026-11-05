@@ -2,6 +2,7 @@ import { useState } from "react"
 import { ChevronRight, Clock, TextCursorInput, Type } from "lucide-react"
 import ModeSelector from "./components/ModeSelector"
 import NotificationManager from "./components/NotificationManager"
+import Results from "./components/Results"
 import TypingTest from "./components/TypingTest"
 import fetchText, { trimToWords } from "./services/textService"
 
@@ -20,13 +21,15 @@ const AVAILABLE_MODES = [
   },
 ]
 
+const EMPTY_RESULT = { correct: 0, incorrect: 0, skipped: 0, elapsed: 0 }
+
 function App() {
   const [currentMode, setCurrentMode] = useState(AVAILABLE_MODES[0])
   const [currentValue, setCurrentValue] = useState(AVAILABLE_MODES[0].values[0])
   const [isInstantionted, setIsInstantiated] = useState(false)
   const [isStarted, setIsStarted] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
-  const [result, setResult] = useState(null)
+  const [result, setResult] = useState(EMPTY_RESULT)
   const [rawText, setRawText] = useState("")
   const [testId, setTestId] = useState(0)
 
@@ -40,13 +43,13 @@ function App() {
     setIsInstantiated(true)
     setIsStarted(false)
     setIsFinished(false)
-    setResult(null)
+    setResult(EMPTY_RESULT)
   }
 
   const restart = () => {
     setIsStarted(false)
     setIsFinished(false)
-    setResult(null)
+    setResult(EMPTY_RESULT)
     setTestId((id) => id + 1)
   }
 
@@ -71,13 +74,13 @@ function App() {
         </div>
 
         {isFinished ? (
-          <div
-            className="text-(--text-sub)"
-            style={{ font: "var(--font-body)" }}
-          >
-            Тест завершён — верно {result?.correct ?? 0}, ошибки{" "}
-            {(result?.incorrect ?? 0) + (result?.skipped ?? 0)}
-          </div>
+          <Results
+            mode={currentMode}
+            modeValue={currentValue}
+            result={result}
+            onRestart={restart}
+            onNext={startTest}
+          />
         ) : isInstantionted ? (
           <TypingTest
             key={testId}

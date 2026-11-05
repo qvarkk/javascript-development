@@ -71,6 +71,10 @@ h1 {
   animation: caret-blink 1.1s steps(1) infinite;
 }
 
+.word {
+  white-space: nowrap;
+}
+
 .char-correct {
   color: var(--text-correct);
 }
