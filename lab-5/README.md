@@ -28,7 +28,7 @@
 
 ## Скриншоты
 
-<!-- <p align="center">
+<p align="center">
   <img src="../assets/lab-5/screenshot-1.png">
 </p>
 
@@ -50,4 +50,4 @@
 
 <p align="center">
   <img src="../assets/lab-5/screenshot-6.png">
-</p> -->
+</p>
